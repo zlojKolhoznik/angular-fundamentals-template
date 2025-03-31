@@ -66,7 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.mockDataService.getPlanets(''),
     ]).pipe(
       map(([characters, planets]) => {
-        return [...characters.results, ...planets.results];
+        return [...characters, ...planets];
       })
     );
     // YOUR CODE ENDS HERE
