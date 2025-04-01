@@ -11,7 +11,7 @@
               {{ course.authors.join(', ') }}
             </div>
             <div><b>Duration: </b><span class="course-card__duration">{{ course.duration | duration }}</span></div>
-            <div><b>Created: </b><span class="course-card__date">::Creation Date::</span></div>
+            <div><b>Created: </b><span class="course-card__date">{{ course.creationDate | customDate }}</span></div>
         </div>
         <div class="course-card__info-actions">
             <app-button></app-button>
