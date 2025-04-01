@@ -11,7 +11,6 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from "@an
 })
 export class EmailValidatorDirective implements Validator, OnChanges {
     private onChange?: () => void;
-    private emailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     ngOnChanges(changes: SimpleChanges): void {
         if (this.onChange) {
@@ -21,7 +20,8 @@ export class EmailValidatorDirective implements Validator, OnChanges {
 
     validate(control: AbstractControl): ValidationErrors | null {
         const value = control.value;
-        return value && !this.emailPattern.test(value)
+        const emailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return value && !emailPattern.test(value)
         ? { invalidEmail: true }
         : null;
     }

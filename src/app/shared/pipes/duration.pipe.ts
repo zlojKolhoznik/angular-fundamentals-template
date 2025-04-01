@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 export class DurationPipe implements PipeTransform {
     transform(value: any, ...args: any[]) {
         if (typeof value !== 'number') {
-            throw new Error('Invalid value type. Expected a number.');
+            value = +value;
         }
 
         const hours = Math.floor(value / 60);

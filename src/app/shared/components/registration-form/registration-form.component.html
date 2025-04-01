@@ -21,6 +21,7 @@
         <span
           id="emailErrorMessage"
           class="text-danger"
+          emailValidator
           *ngIf="registrationForm.get('email')?.invalid
             && (registrationForm.get('email')?.touched || registrationForm.get('email')?.dirty)">
           Email is required.
