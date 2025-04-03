@@ -4,7 +4,7 @@ import { Author } from '@app/shared/models/author';
 import { Course, CourseCreation } from '@app/shared/models/course';
 import { map } from 'rxjs';
 
-const baseUrl = 'http://localhost:3000/api/courses';
+const baseUrl = 'http://localhost:4000/api/courses';
 type HttpResponse<T> = {
     successful: boolean;
     result: T;
