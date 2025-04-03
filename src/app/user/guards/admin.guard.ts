@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserStoreService } from '../services/user-store.service';
@@ -14,7 +14,6 @@ export class AdminGuard implements CanActivate {
             return true;
         }
 
-        this.router.navigate(['/courses']);
-        return false;
+        return this.router.createUrlTree(['/courses']);
     }
 }

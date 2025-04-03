@@ -7,14 +7,13 @@ import { AuthService } from '../services/auth.service';
     providedIn: 'root'
 })
 export class NotAuthorizedGuard implements CanActivate {
-    constructor(private authService: AuthService) { }
+    constructor(private authService: AuthService, private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         const isAuthorized = this.authService.isAuthorised;
         if (!isAuthorized) {
-            const router = inject(Router);
-            router.navigate([this.authService.getLoginUrl()]);
+            return true;
         }
-        return true;
+        return this.router.createUrlTree(['/courses']);
     }
 }
