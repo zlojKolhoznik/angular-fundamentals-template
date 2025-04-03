@@ -9,11 +9,17 @@ import { UserStoreService } from '../services/user-store.service';
 export class AdminGuard implements CanActivate {
     constructor(private userStore: UserStoreService, private router: Router) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        if (this.userStore.isAdmin) {
-            return true;
-        }
-
-        return this.router.createUrlTree(['/courses']);
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {        
+        this.userStore.getUser();
+        return new Observable<boolean | UrlTree>(observer => {
+            this.userStore.isAdmin$.subscribe(isAdmin => {
+                if (isAdmin) {
+                    observer.next(true);
+                } else {
+                    observer.next(this.router.createUrlTree(['/courses']));
+                }
+                observer.complete();
+            });
+        });
     }
 }

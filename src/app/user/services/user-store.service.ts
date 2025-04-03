@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { User } from '@app/shared/models/user';
 import { BehaviorSubject } from 'rxjs';
 import { UserService } from './user.service';
 
@@ -8,8 +7,9 @@ import { UserService } from './user.service';
 })
 export class UserStoreService {
 
-    private name$$ = new BehaviorSubject<string>('');
+    private name$$ = new BehaviorSubject<string | null>('');
     private isAdmin$$ = new BehaviorSubject<boolean>(false);
+    private isLoading$$ = new BehaviorSubject<boolean>(false);
     public name$ = this.name$$.asObservable();
     public isAdmin$ = this.isAdmin$$.asObservable();
 
@@ -32,5 +32,9 @@ export class UserStoreService {
 
     set isAdmin(value: boolean) {
         this.isAdmin$$.next(value);
+    }
+
+    get isLoading() {
+        return this.isLoading$$.getValue();
     }
 }

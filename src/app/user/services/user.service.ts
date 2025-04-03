@@ -15,7 +15,10 @@ export class UserService {
     constructor(private http: HttpClient) {}
 
     getUser() {
-        return this.http.get<HttpResponse<User>>('http://localhost:4000/users/me')
+        const headers = {
+            'Authorization': 'Bearer ' + sessionStorage.getItem('SESSION_TOKEN')
+        }
+        return this.http.get<HttpResponse<User>>('http://localhost:4000/users/me', { headers })
             .pipe(map(r => r.result));
     }
 }

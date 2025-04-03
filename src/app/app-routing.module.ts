@@ -1,13 +1,13 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthorizedGuard } from './auth/guards/authorized.guard';
 import { NotAuthorizedGuard } from './auth/guards/not-authorized.guard';
 import { AdminGuard } from './user/guards/admin.guard';
+import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
     {
         path: 'login',
         loadChildren: () => import('./shared/components/login-form/login-page-module.module').then(m => m.LoginPageModuleModule),
-        canActivate: [NotAuthorizedGuard]
     },
     {
         path: 'registration',
@@ -16,14 +16,11 @@ export const routes: Routes = [
     },
     {
         path: 'courses',
-        loadChildren: () => import('./features/courses/courses.module').then(m => m.CoursesModule),
-        canLoad: [AuthorizedGuard]
+        loadChildren: () => import('./features/courses/courses.module').then(m => m.CoursesModule)
     },
     {
         path: 'courses/add',
-        loadChildren: () => import('./shared/components/course-form/course-form.module').then(m => m.CourseFormModule),
-        canLoad: [AuthorizedGuard],
-        canActivate: [AdminGuard]
+        loadChildren: () => import('./shared/components/course-form/course-form.module').then(m => m.CourseFormModule)
     },
     {
         path: 'courses/:id',
@@ -32,12 +29,17 @@ export const routes: Routes = [
     },
     {
         path: 'courses/edit/:id',
-        loadChildren: () => import('./shared/components/course-form/course-form.module').then(m => m.CourseFormModule),
-        canLoad: [AuthorizedGuard],
-        canActivate: [AdminGuard]
+        loadChildren: () => import('./shared/components/course-form/course-form.module').then(m => m.CourseFormModule)
     },
     {
         path: '**',
         redirectTo: '/courses',
     }
 ];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' })],
+    exports: [RouterModule],
+    providers: [AuthorizedGuard, NotAuthorizedGuard, AdminGuard],
+})
+export class AppRoutingModule { }

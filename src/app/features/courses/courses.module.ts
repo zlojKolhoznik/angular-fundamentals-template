@@ -3,14 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CoursesComponent } from './courses.component';
 import { CoursesListComponent } from './courses-list/courses-list.component';
 import { SharedModule } from "../../shared/shared.module";
-import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: CoursesComponent,
-  }
-];
+import { CoursesRoutingModule } from './courses.routing.module';
 
 @NgModule({
   declarations: [
@@ -20,8 +13,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+    CoursesRoutingModule
+  ]
 })
 export class CoursesModule { }

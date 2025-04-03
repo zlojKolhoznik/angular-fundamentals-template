@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SessionStorageService } from "./services/session-storage.service";
 import { AuthService } from "./services/auth.service";
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { WINDOW } from '@app/shared/window.token';
+import { AuthorizedGuard } from './guards/authorized.guard';
+import { NotAuthorizedGuard } from './guards/not-authorized.guard';
 
 @NgModule({
   declarations: [],
@@ -13,7 +15,10 @@ import { WINDOW } from '@app/shared/window.token';
   ],
   providers: [
     SessionStorageService,
+    AuthorizedGuard,
+    NotAuthorizedGuard,
     AuthService,
+    HttpClient,
     { provide: WINDOW, useValue: window }
   ]
 })

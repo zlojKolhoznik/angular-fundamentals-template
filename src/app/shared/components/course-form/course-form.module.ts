@@ -1,21 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CourseFormComponent } from './course-form.component';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: CourseFormComponent,
-  }
-];
+import { CourseFormRoutingModule } from './course-form-routing.module';
+import { SharedModule } from '@app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [],
+  declarations: [CourseFormComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  exports: [RouterModule],
+  exports: [RouterModule, CourseFormRoutingModule],
 })
 export class CourseFormModule { }

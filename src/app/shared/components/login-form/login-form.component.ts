@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AuthService } from '@app/auth/services/auth.service';
+import { User } from '@app/shared/models/user';
 
 @Component({
   selector: 'app-login-form',
@@ -8,7 +10,16 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginFormComponent {
   @ViewChild("loginForm") public loginForm!: NgForm;
-  //Use the names `email` and `password` for form controls.
   public email: string = '';
   public password: string = '';
+
+  constructor(private authService: AuthService) {}
+
+  public login() {
+    if (this.loginForm.valid) {
+      const user: User = {email: this.email, password: this.password, name: null};
+      this.authService.login(user);
+      window.location.pathname = '/courses';
+    }
+  }
 }

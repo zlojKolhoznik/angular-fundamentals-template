@@ -16,10 +16,11 @@ export class AuthService {
     }
 
     login(user: User) {
-        var request = this.httpClient.post('http://localhost:4000/api/login', user);
+        var request = this.httpClient.post('http://localhost:4000/login', user);
         request.subscribe((response: any) => {
-            if (response && response.token) {
-                this.sessionStorageService.setToken(response.token.split(' ')[1]); // Remove 'Bearer' from the token
+            console.log(response);
+            if (response && response.result) {
+                this.sessionStorageService.setToken(response.result.split(' ')[1]); // Remove 'Bearer' from the token
                 this.isAuthorized$$.next(true);
             }
         });
@@ -27,13 +28,13 @@ export class AuthService {
 
     logout() {
         var token = this.sessionStorageService.getToken();
-        var request = this.httpClient.post('http://localhost:4000/api/logout', {}, {
+        var request = this.httpClient.post('http://localhost:4000/logout', {}, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
         request.subscribe((response: any) => {
-            if (response && response.success) {
+            if (response && response.successful) {
                 this.sessionStorageService.deleteToken();
                 this.isAuthorized$$.next(false);
             }
@@ -41,9 +42,9 @@ export class AuthService {
     }
 
     register(user: User) { // replace 'any' with the required interface
-        var request = this.httpClient.post('http://localhost:4000/api/register', user);
+        var request = this.httpClient.post('http://localhost:4000/register', user);
         request.subscribe((response: any) => {
-            if (response && response.success) {
+            if (response && response.successful) {
                 this.login(user);
             }
         });

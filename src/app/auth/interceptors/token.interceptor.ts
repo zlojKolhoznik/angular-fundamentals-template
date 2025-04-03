@@ -2,11 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from 'express';
+import { SessionStorageService } from '../services/session-storage.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+    constructor(private service: SessionStorageService) {}
+
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token = sessionStorage.getItem('SESSION_TOKEN'); // Use the same key as in SessionStorageService
+        const token = this.service.getToken(); // Get the token from session storage
         if (token) {
             req = req.clone({
                 setHeaders: {
@@ -21,7 +24,7 @@ export class TokenInterceptor implements HttpInterceptor {
             },
             (error: any) => {
                 if (error.status === 401) {
-                    sessionStorage.removeItem('SESSION_TOKEN'); // Clear the token on 401 error
+                    this.service.deleteToken(); // Remove the token if unauthorized
                     const router = inject(Router);
                     router.navigate(['/login']);
                 }
