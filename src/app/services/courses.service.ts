@@ -32,12 +32,12 @@ export class CoursesService {
     }
 
     getCourse(id: string) {
-        return this.http.get<HttpResponse<Course>>(baseUrl + '/courses' + id)
+        return this.http.get<HttpResponse<Course>>(baseUrl + '/courses/' + id)
             .pipe(map(response => response.result));
     }
 
     deleteCourse(id: string) {
-        return this.http.delete<HttpResponse<string>>(baseUrl + '/courses' + id)
+        return this.http.delete<HttpResponse<string>>(baseUrl + '/courses/' + id)
             .pipe(map(response => response.result));
     }
 
