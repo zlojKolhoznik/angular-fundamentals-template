@@ -8,6 +8,7 @@ import { NotAuthorizedGuard } from '@app/auth/guards/not-authorized.guard';
 import { AuthorizedGuard } from '@app/auth/guards/authorized.guard';
 import { CoursesStoreService } from '@app/services/courses-store.service';
 import { CoursesService } from '@app/services/courses.service';
+import { WINDOW } from './shared/window.token';
 
 @NgModule({
   declarations: [AppComponent, CourseInfoComponent],
@@ -21,7 +22,7 @@ import { CoursesService } from '@app/services/courses.service';
     NotAuthorizedGuard,
     CoursesService,
     CoursesStoreService,
-    { provide: 'WINDOW', useValue: window },
+    { provide: WINDOW, useValue: window },
   ],
   bootstrap: [AppComponent],
 })
