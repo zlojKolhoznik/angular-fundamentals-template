@@ -16,7 +16,7 @@ import { CoursesService } from '@app/services/courses.service';
     SharedModule,
     FontAwesomeModule,
   ],
-  providers: [AuthorizedGuard, NotAuthorizedGuard, CoursesService, CoursesStoreService],
+  providers: [AuthorizedGuard, NotAuthorizedGuard, CoursesService, CoursesStoreService, Window],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
