@@ -9,9 +9,11 @@ import { Author } from '@app/shared/models/author';
 })
 export class CoursesStoreService {
     private isLoading$$ = new BehaviorSubject<boolean>(false);
-    private courses$$ = new BehaviorSubject<Course[] | Author[]>([]);
+    private courses$$ = new BehaviorSubject<Course[]>([]);
+    private authors$$ = new BehaviorSubject<Author[]>([]);
     public isLoading$ = this.isLoading$$.asObservable();
     public courses$ = this.courses$$.asObservable();
+    public authors$ = this.authors$$.asObservable();
 
     constructor(private service: CoursesService) { }
 
@@ -32,13 +34,7 @@ export class CoursesStoreService {
         this.isLoading$$.next(true);
         this.service.createCourse(course).subscribe(result => {
             const currentCourses = this.courses$$.getValue();
-            if (!('creationDate' in currentCourses[0])) {
-                this.courses$$.next([result]);
-                this.isLoading$$.next(false);
-                return;
-            }
-            
-            this.courses$$.next([...currentCourses as Course[], result]);
+            this.courses$$.next([...currentCourses, result]);
             this.isLoading$$.next(false);
         },
         error => {
@@ -63,14 +59,8 @@ export class CoursesStoreService {
         this.isLoading$$.next(true);
         this.service.editCourse(id, course).subscribe(result => {
             const currentCourses = this.courses$$.getValue();
-            if (!('creationDate' in currentCourses[0])) {
-                this.courses$$.next([result]);
-                this.isLoading$$.next(false);
-                return;
-            }
-
             const updatedCourses = currentCourses.map(c => c.id === id ? result : c);
-            this.courses$$.next(updatedCourses as Course[]);
+            this.courses$$.next(updatedCourses);
             this.isLoading$$.next(false);
         },
         error => {
@@ -83,14 +73,8 @@ export class CoursesStoreService {
         this.isLoading$$.next(true);
         this.service.deleteCourse(id).subscribe(() => {
             const currentCourses = this.courses$$.getValue();
-            if (!('creationDate' in currentCourses[0])) {
-                this.courses$$.next([]);
-                this.isLoading$$.next(false);
-                return;
-            }
-
             const updatedCourses = currentCourses.filter(c => c.id !== id);
-            this.courses$$.next(updatedCourses as Course[]);
+            this.courses$$.next(updatedCourses);
             this.isLoading$$.next(false);
         },
         error => {
@@ -114,7 +98,7 @@ export class CoursesStoreService {
     getAllAuthors() {
         this.isLoading$$.next(true);
         this.service.getAllAuthors().subscribe(result => {
-            this.courses$$.next(result);
+            this.authors$$.next(result);
             this.isLoading$$.next(false);
         },
         error => {
@@ -126,14 +110,8 @@ export class CoursesStoreService {
     createAuthor(name: string) {
         this.isLoading$$.next(true);
         this.service.createAuthor(name).subscribe(result => {
-            const currentAuthors = this.courses$$.getValue();
-            if ('creationDate' in currentAuthors[0]) {
-                this.courses$$.next([result]);
-                this.isLoading$$.next(false);
-                return;
-            }
-
-            this.courses$$.next([...currentAuthors as Author[], result]);
+            const currentAuthors = this.authors$$.getValue();
+            this.authors$$.next([...currentAuthors, result]);
             this.isLoading$$.next(false);
         },
         error => {
@@ -145,7 +123,7 @@ export class CoursesStoreService {
     getAuthorById(id: string) {
         this.isLoading$$.next(true);
         this.service.getAuthorById(id).subscribe(result => {
-            this.courses$$.next([result]);
+            this.authors$$.next([result]);
             this.isLoading$$.next(false);
         },
         error => {
