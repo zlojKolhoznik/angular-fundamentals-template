@@ -15,7 +15,7 @@ export class UserService {
     constructor(private http: HttpClient) {}
 
     getUser() {
-        return this.http.get<HttpResponse<User>>('http://localhost:4000/api/users/me')
+        return this.http.get<HttpResponse<User>>('http://localhost:4000/users/me')
             .pipe(map(r => r.result));
     }
 }

@@ -4,7 +4,7 @@ import { Author } from '@app/shared/models/author';
 import { Course, CourseCreation } from '@app/shared/models/course';
 import { map } from 'rxjs';
 
-const baseUrl = 'http://localhost:4000/api/courses';
+const baseUrl = 'http://localhost:4000/';
 type HttpResponse<T> = {
     successful: boolean;
     result: T;
@@ -17,32 +17,32 @@ export class CoursesService {
     constructor(private http: HttpClient) {}
 
     getAll() {
-        return this.http.get<HttpResponse<Course[]>>(baseUrl + '/all')
+        return this.http.get<HttpResponse<Course[]>>(baseUrl + '/courses/all')
             .pipe(map(response => response.result));
     }
 
     createCourse(course: CourseCreation) { // replace 'any' with the required interface
-        return this.http.post<HttpResponse<Course>>(baseUrl + '/add', course)
+        return this.http.post<HttpResponse<Course>>(baseUrl + '/courses/add', course)
             .pipe(map(response => response.result));
     }
 
     editCourse(id: string, course: CourseCreation) { // replace 'any' with the required interface
-        return this.http.put<HttpResponse<Course>>(baseUrl + '/id', course)
+        return this.http.put<HttpResponse<Course>>(baseUrl + '/courses/' + id, course)
             .pipe(map(response => response.result));
     }
 
     getCourse(id: string) {
-        return this.http.get<HttpResponse<Course>>(baseUrl + '/id')
+        return this.http.get<HttpResponse<Course>>(baseUrl + '/courses' + id)
             .pipe(map(response => response.result));
     }
 
     deleteCourse(id: string) {
-        return this.http.delete<HttpResponse<string>>(baseUrl + '/id')
+        return this.http.delete<HttpResponse<string>>(baseUrl + '/courses' + id)
             .pipe(map(response => response.result));
     }
 
     filterCourses(value: string) {
-        return this.http.get<HttpResponse<Course[]>>(baseUrl + '/filter', { params: { value } })
+        return this.http.get<HttpResponse<Course[]>>(baseUrl + '/courses/filter', { params: { value } })
             .pipe(map(response => response.result));
     }
 
