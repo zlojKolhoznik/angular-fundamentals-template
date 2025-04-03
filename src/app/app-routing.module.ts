@@ -5,17 +5,17 @@ import { AdminGuard } from './user/guards/admin.guard';
 
 export const routes: Routes = [
     {
-        path: '/login',
+        path: 'login',
         loadChildren: () => import('./shared/components/login-form/login-page-module.module').then(m => m.LoginPageModuleModule),
         canActivate: [NotAuthorizedGuard]
     },
     {
-        path: '/registration',
+        path: 'registration',
         loadChildren: () => import('./shared/components/registration-form/registration-page.module').then(m => m.RegistrationPageModule),
         canActivate: [NotAuthorizedGuard]
     },
     {
-        path: '/courses',
+        path: 'courses',
         loadChildren: () => import('./features/courses/courses.module').then(m => m.CoursesModule),
         canLoad: [AuthorizedGuard]
     },
