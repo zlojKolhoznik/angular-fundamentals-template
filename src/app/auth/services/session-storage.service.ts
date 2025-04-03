@@ -8,9 +8,8 @@ const TOKEN = 'SESSION_TOKEN'; // Use this constant for the session storage entr
 })
 export class SessionStorageService {
 
-  @Inject(Window) private window: Window;
-  constructor() {
-    this.window = inject(Window);
+  constructor(private window: Window) {
+
   }
 
   setToken(token: string){
