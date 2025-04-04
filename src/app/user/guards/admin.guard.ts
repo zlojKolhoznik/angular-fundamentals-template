@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UserStoreService } from '../services/user-store.service';
 
 @Injectable({
@@ -9,17 +9,14 @@ import { UserStoreService } from '../services/user-store.service';
 export class AdminGuard implements CanActivate {
     constructor(private userStore: UserStoreService, private router: Router) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {        
-        this.userStore.getUser();
-        return new Observable<boolean | UrlTree>(observer => {
-            this.userStore.isAdmin$.subscribe(isAdmin => {
-                if (isAdmin) {
-                    observer.next(true);
-                } else {
-                    observer.next(this.router.createUrlTree(['/courses']));
+    canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {        
+        return this.userStore.getUser().pipe(
+            map(_user => {
+                if (this.userStore.isAdmin) {
+                    return true;
                 }
-                observer.complete();
-            });
-        });
+
+                return this.router.createUrlTree(['/courses']);
+            }));
     }
 }

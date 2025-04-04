@@ -1,6 +1,6 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -9,11 +9,16 @@ import { AuthService } from '../services/auth.service';
 export class AuthorizedGuard implements CanLoad {
     constructor(private authService: AuthService, private router: Router) { }
     canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        const isAuthorized = this.authService.isAuthorised;
-        console.log('isAuthorized', isAuthorized);
-        if (!isAuthorized) {
-            return this.router.createUrlTree([this.authService.getLoginUrl()]);
-        }
-        return true;
+        return this.authService.isAuthorized$.pipe(
+            map((isAuthorized) => {
+                if (!isAuthorized) {
+                    return this.router.createUrlTree(['/login']);
+                }
+                return true;
+            }),
+            catchError(() => {
+                return of(this.router.createUrlTree(['/login']));
+            })
+        );
     }
 }

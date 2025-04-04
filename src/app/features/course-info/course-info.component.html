@@ -3,7 +3,7 @@
 <div class="title">{{ title }}</div>
 <div class="course-info">
   <div class="course-info__description">
-    ::Description::
+    {{description}}
   </div>
   <div class="course-info__info">
     <div><b>ID: </b><span class="course-info__info-id">{{ id }}</span></div>
@@ -13,5 +13,5 @@
   </div>
 </div>
 <div class="navigation-block">
-  <app-button [buttonText]="'Back'"></app-button>
+  <a routerLink=".." [style.textDecoration]="'none'"><app-button [buttonText]="'Back'"></app-button></a>
 </div>

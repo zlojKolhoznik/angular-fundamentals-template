@@ -2,23 +2,24 @@ import { Injectable } from '@angular/core';
 import { SessionStorageService } from './session-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { User } from '@app/shared/models/user';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private isAuthorized$$ = new BehaviorSubject<boolean>(false);
-    public isAuthorized$ = this.isAuthorized$$.asObservable();
+    private isAuthorized$$: BehaviorSubject<boolean>;
+    public isAuthorized$: Observable<boolean>;
 
     constructor(private httpClient: HttpClient, private sessionStorageService: SessionStorageService) {
-                
+        this.isAuthorized$$ = new BehaviorSubject<boolean>(this.sessionStorageService.getToken() !== null);
+        this.isAuthorized$ = this.isAuthorized$$.asObservable();
+
     }
 
     login(user: User) {
         var request = this.httpClient.post('http://localhost:4000/login', user);
         request.subscribe((response: any) => {
-            console.log(response);
             if (response && response.result) {
                 this.sessionStorageService.setToken(response.result.split(' ')[1]); // Remove 'Bearer' from the token
                 this.isAuthorized$$.next(true);
@@ -47,7 +48,16 @@ export class AuthService {
             if (response && response.successful) {
                 this.login(user);
             }
+        }, (error) => {
+            console.error('Registration failed', error);
         });
+        return request.pipe(map((response: any) => {
+            if (response && response.successful) {
+                return true;
+            } else {
+                return false;
+            }
+        }));
     }
 
     get isAuthorised() {

@@ -9,14 +9,16 @@ export class UserStoreService {
 
     private name$$ = new BehaviorSubject<string | null>('');
     private isAdmin$$ = new BehaviorSubject<boolean>(false);
-    private isLoading$$ = new BehaviorSubject<boolean>(false);
     public name$ = this.name$$.asObservable();
     public isAdmin$ = this.isAdmin$$.asObservable();
 
-    constructor(private service: UserService) { }
+    constructor(private service: UserService) {
+        this.getUser();
+     }
 
     getUser() {
-        this.service.getUser().subscribe(u => {
+        let result = this.service.getUser();
+        result.subscribe(u => {
             this.name$$.next(u.name);
             this.isAdmin$$.next(u.role !== undefined && u.role === 'admin');
         }, e => {
@@ -24,6 +26,7 @@ export class UserStoreService {
             this.name$$.next('');
             this.isAdmin$$.next(false);
         });
+        return result;
     }
 
     get isAdmin() {
@@ -32,9 +35,5 @@ export class UserStoreService {
 
     set isAdmin(value: boolean) {
         this.isAdmin$$.next(value);
-    }
-
-    get isLoading() {
-        return this.isLoading$$.getValue();
     }
 }

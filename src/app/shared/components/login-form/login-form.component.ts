@@ -19,7 +19,11 @@ export class LoginFormComponent {
     if (this.loginForm.valid) {
       const user: User = {email: this.email, password: this.password, name: null};
       this.authService.login(user);
-      window.location.pathname = '/courses';
+      this.authService.isAuthorized$.subscribe((isAuthorized) => {
+        if (isAuthorized) {
+          window.location.pathname = '/courses';
+        }
+      });
     }
   }
 }

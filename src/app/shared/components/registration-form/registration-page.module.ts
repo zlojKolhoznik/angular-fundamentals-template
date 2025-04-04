@@ -1,21 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
 import { RegistrationFormComponent } from './registration-form.component';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: RegistrationFormComponent
-  }
-];
+import { RegistrationPageRoutingModule } from './registration-page-routing.module';
+import { SharedModule } from '@app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [],
+  declarations: [RegistrationFormComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RegistrationPageRoutingModule
   ],
-  exports: [RouterModule],
+  exports: [],
 })
 export class RegistrationPageModule { }

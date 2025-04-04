@@ -29,7 +29,7 @@
         <div class="course__flex">
           <!--Use the name `author` for the form control.-->
           <input type="text" id="author" placeholder="Input Author Name" formControlName="author"/>
-          <app-button id="createAuthor" buttonText="Create author"></app-button>
+          <app-button id="createAuthor" buttonText="Create author" (click)="createAuthor(courseForm.get('author')?.value)"></app-button>
         </div>
         <span id="authorErrorMessage">New author should contain only latin letters and numbers.</span>
         <div class="course__authors">

@@ -14,11 +14,10 @@
             <div><b>Created: </b><span class="course-card__date">{{ course.creationDate | customDate }}</span></div>
         </div>
         <div class="course-card__info-actions">
-            <app-button></app-button>
-            <div class="course-card__buttons">
-                <app-button [buttonText]="'Show course'"></app-button>
-                <app-button ngIf="editable" [iconName]="'pencil'"></app-button>
-                <app-button ngIf="editable" [iconName]="'trash'"></app-button>
+            <app-button buttonText="Show course" (click)="emitCourse(clickOnShow)"></app-button>
+            <div class="course-card__buttons" *ngIf="editable">
+                <app-button iconName="pencil" (click)="emitCourse(clickOnEdit)"></app-button>
+                <app-button iconName="trash" (click)="emitCourse(clickOnDelete)"></app-button>
             </div>
         </div>
     </div>

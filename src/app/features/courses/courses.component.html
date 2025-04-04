@@ -1,1 +1,9 @@
-<p>courses works!</p>
+<div class="flex flex-column">
+    <app-course-card
+        *ngFor="let course of courses"
+        [course]="course"
+        [editable]="userStore.isAdmin"
+        (clickOnDelete)="mockDeleteCourse()"
+        (clickOnEdit)="editCourse(course)"
+        (clickOnShow)="showCourse(course)"></app-course-card>
+</div>

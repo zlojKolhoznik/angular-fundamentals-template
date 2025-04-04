@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder, FormGroup,
   Validators
 } from '@angular/forms';
+import { CoursesService } from '@app/services/courses.service';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,10 +13,27 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.scss'],
 })
-export class CourseFormComponent {
-  constructor(public fb: FormBuilder, public library: FaIconLibrary) {
+export class CourseFormComponent implements OnInit {
+  constructor(public fb: FormBuilder, public library: FaIconLibrary, private service: CoursesService) {
     library.addIconPacks(fas);
     this.courseForm = this.createForm();
+  }
+
+  ngOnInit(): void {
+    const url = window.location.href;
+    const courseId = url.split('/').pop();
+    const guidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (courseId && guidRegex.test(courseId)) {
+      this.service.getCourse(courseId).subscribe((course) => {
+        this.courseForm.patchValue({
+          title: course.title,
+          description: course.description,
+          duration: course.duration,
+          authors: course.authors,
+          author: ''
+        });
+      });
+    }
   }
   courseForm!: FormGroup;
   initialAuthors: string[] = [];
@@ -32,13 +50,12 @@ export class CourseFormComponent {
   }
 
   removeAuthorFromCourse(author: string) {
-    const index = this.initialAuthors.indexOf(author);
+    const index = (this.courseForm.get('authors') as FormArray).controls.findIndex((control) => control.value === author);
     if (index !== -1) {
       let courseAuthors = this.courseForm.get('authors') as FormArray;
       courseAuthors.removeAt(index);
+      this.initialAuthors.push(author);
     }
-
-    this.initialAuthors.push(author);
   }
 
   addAuthorToCourse(author: string) {
@@ -54,6 +71,14 @@ export class CourseFormComponent {
     const index = this.initialAuthors.indexOf(author);
     if (index !== -1) {
       this.initialAuthors.splice(index, 1);
+    }
+  }
+
+  createAuthor(input: string) {
+    const author = input.trim();
+    if (author) {
+      this.initialAuthors.push(author);
+      this.courseForm.get('author')?.setValue('');
     }
   }
 }

@@ -1,16 +1,16 @@
 import { RouterModule, Routes } from "@angular/router";
-import { CourseFormComponent } from "./course-form.component";
+import { CourseInfoComponent } from "./course-info.component";
 import { NgModule } from "@angular/core";
 
 const routes: Routes = [
   {
     path: '',
-    component: CourseFormComponent,
+    component: CourseInfoComponent,
   }
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class CourseFormRoutingModule { }
+export class CourseInfoRoutingModule { }

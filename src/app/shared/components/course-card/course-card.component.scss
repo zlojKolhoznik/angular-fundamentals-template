@@ -12,6 +12,17 @@
   width: 80vw;
   background-color: $color-white;
 
+  &__info-actions {
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__description {
     flex: 2;
 

@@ -21,7 +21,6 @@ const components = [
   SearchComponent,
   ModalComponent,
   CourseCardComponent,
-  RegistrationFormComponent,
   DurationPipe,
   CustomDatePipe,
   EmailValidatorDirective

@@ -15,7 +15,6 @@ export class SessionStorageService {
 
   setToken(token: string){
     window.sessionStorage.setItem(TOKEN, token);
-    console.log(window.sessionStorage);
   }
 
   getToken(){

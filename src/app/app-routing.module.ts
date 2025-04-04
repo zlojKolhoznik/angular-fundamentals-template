@@ -8,6 +8,7 @@ export const routes: Routes = [
     {
         path: 'login',
         loadChildren: () => import('./shared/components/login-form/login-page-module.module').then(m => m.LoginPageModuleModule),
+        canActivate: [NotAuthorizedGuard]
     },
     {
         path: 'registration',
@@ -16,11 +17,14 @@ export const routes: Routes = [
     },
     {
         path: 'courses',
-        loadChildren: () => import('./features/courses/courses.module').then(m => m.CoursesModule)
+        loadChildren: () => import('./features/courses/courses.module').then(m => m.CoursesModule),
+        canLoad: [AuthorizedGuard]
     },
     {
         path: 'courses/add',
-        loadChildren: () => import('./shared/components/course-form/course-form.module').then(m => m.CourseFormModule)
+        loadChildren: () => import('./shared/components/course-form/course-form.module').then(m => m.CourseFormModule),
+        canLoad: [AuthorizedGuard],
+        canActivate: [AdminGuard]
     },
     {
         path: 'courses/:id',
@@ -29,7 +33,9 @@ export const routes: Routes = [
     },
     {
         path: 'courses/edit/:id',
-        loadChildren: () => import('./shared/components/course-form/course-form.module').then(m => m.CourseFormModule)
+        loadChildren: () => import('./shared/components/course-form/course-form.module').then(m => m.CourseFormModule),
+        canLoad: [AuthorizedGuard],
+        canActivate: [AdminGuard]
     },
     {
         path: '**',
