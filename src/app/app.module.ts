@@ -7,14 +7,12 @@ import { NotAuthorizedGuard } from '@app/auth/guards/not-authorized.guard';
 import { AuthorizedGuard } from '@app/auth/guards/authorized.guard';
 import { CoursesStoreService } from '@app/services/courses-store.service';
 import { CoursesService } from '@app/services/courses.service';
-import { WINDOW } from './shared/window.token';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
 import { UserStoreService } from './user/services/user-store.service';
 import { UserService } from './user/services/user.service';
-import { AuthService } from './auth/services/auth.service';
-import { SessionStorageService } from './auth/services/session-storage.service';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +22,7 @@ import { SessionStorageService } from './auth/services/session-storage.service';
     FontAwesomeModule,
     AppRoutingModule,
     AuthModule,
+    UserModule,
     HttpClientModule
   ],
   providers: [
@@ -32,8 +31,7 @@ import { SessionStorageService } from './auth/services/session-storage.service';
     CoursesService,
     CoursesStoreService,
     UserStoreService,
-    UserService,
-    { provide: WINDOW, useValue: window }
+    UserService
   ],
   bootstrap: [AppComponent],
 })
