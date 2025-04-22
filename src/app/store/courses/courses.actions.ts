@@ -20,7 +20,7 @@ export const requestDeleteCourseSuccess = createAction(CoursesConstants.REQUEST_
 export const requestDeleteCourseFail = createAction(CoursesConstants.REQUEST_DELETE_COURSE_FAIL, props<{ error: any }>());
 
 export const requestEditCourse = createAction(CoursesConstants.REQUEST_EDIT_COURSE, props<{ id: string, course: Course }>());
-export const requestEditCourseSuccess = createAction(CoursesConstants.REQUEST_EDIT_COURSE_SUCCESS, props<{ course: Course }>());
+export const requestEditCourseSuccess = createAction(CoursesConstants.REQUEST_EDIT_COURSE_SUCCESS, props<{ course: CourseCreation }>());
 export const requestEditCourseFail = createAction(CoursesConstants.REQUEST_EDIT_COURSE_FAIL, props<{ error: any }>());
 
 export const requestCreateCourse = createAction(CoursesConstants.REQUEST_CREATE_COURSE, props<{ course: CourseCreation }>());
