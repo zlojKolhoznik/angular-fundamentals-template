@@ -16,17 +16,20 @@ export class UserStoreService {
         this.getUser();
      }
 
-    getUser() {
+     getUser() {
         let result = this.service.getUser();
-        result.subscribe(u => {
-            this.name$$.next(u.name);
-            this.isAdmin$$.next(u.role !== undefined && u.role === 'admin');
-        }, e => {
-            console.error(e);
-            this.name$$.next('');
-            this.isAdmin$$.next(false);
-        });
-        return result;
+        if (result) {  // Add this check
+            result.subscribe(u => {
+                this.name$$.next(u.name);
+                this.isAdmin$$.next(u.role !== undefined && u.role === 'admin');
+            }, e => {
+                console.error(e);
+                this.name$$.next('');
+                this.isAdmin$$.next(false);
+            });
+            return result;
+        }
+        return null;  // Return something when result is undefined
     }
 
     get isAdmin() {
