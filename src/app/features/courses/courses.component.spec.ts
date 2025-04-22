@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CoursesComponent } from './courses.component';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { effects, reducers } from '@app/store';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('CoursesComponent', () => {
   let component: CoursesComponent;
@@ -9,10 +12,13 @@ describe('CoursesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CoursesComponent ],
-      imports: [HttpClientModule]
+      declarations: [CoursesComponent],
+      imports: [
+        HttpClientModule,
+        StoreModule.forRoot(reducers),
+        EffectsModule.forRoot(effects)]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CoursesComponent);
     component = fixture.componentInstance;
