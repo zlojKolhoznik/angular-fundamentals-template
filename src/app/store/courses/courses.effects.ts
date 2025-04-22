@@ -45,7 +45,7 @@ export class CoursesEffects {
     editCourse$ = createEffect(() => this.actions$.pipe(
         ofType(CoursesActions.requestEditCourse),
         mergeMap(({ id, course }) => this.courses.editCourse(id, course).pipe(
-            map(() => CoursesActions.requestEditCourseSuccess({ course })),
+            map((course) => CoursesActions.requestEditCourseSuccess({ course })),
             catchError((error) => of(CoursesActions.requestEditCourseFail({ error })))
         ))
     ));
