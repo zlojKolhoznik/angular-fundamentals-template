@@ -41,8 +41,8 @@ export class CoursesService {
             .pipe(map(response => response.result));
     }
 
-    filterCourses(_value: string) {
-        return this.http.get<HttpResponse<Course[]>>(baseUrl + '/courses/filter') // no search value used, trying to check test behavior
+    filterCourses(value: string) {
+        return this.http.get<HttpResponse<Course[]>>(baseUrl + '/courses/filter', { params: { title: value } })
             .pipe(map(response => response.result));
     }
 
