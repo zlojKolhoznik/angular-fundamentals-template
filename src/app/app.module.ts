@@ -13,6 +13,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserStoreService } from './user/services/user-store.service';
 import { UserService } from './user/services/user.service';
 import { UserModule } from './user/user.module';
+import { StoreModule } from '@ngrx/store';
+import { effects, reducers } from './store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +26,9 @@ import { UserModule } from './user/user.module';
     AppRoutingModule,
     AuthModule,
     UserModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects)
   ],
   providers: [
     AuthorizedGuard,
