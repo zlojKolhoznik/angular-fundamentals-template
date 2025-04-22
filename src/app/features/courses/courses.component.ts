@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CoursesService } from '@app/services/courses.service';
 import { Course } from '@app/shared/models/course';
+import { CoursesStateFacade } from '@app/store/courses/courses.facade';
 import { UserStoreService } from '@app/user/services/user-store.service';
 
 @Component({
@@ -9,15 +9,13 @@ import { UserStoreService } from '@app/user/services/user-store.service';
   styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent implements OnInit {
-  constructor(private service: CoursesService, public userStore: UserStoreService) {}
+  constructor(private facade: CoursesStateFacade, public userStore: UserStoreService) {}
 
   ngOnInit(): void {
-    this.service.getAll().subscribe((courses) => {
-      this.courses = courses;
-    });
+    this.facade.getAllCourses();
   }
 
-  public courses: Course[] = [];
+  public courses$ = this.facade.courses$;
 
   public mockDeleteCourse() {
     alert('Mock deletion!');

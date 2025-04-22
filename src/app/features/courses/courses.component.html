@@ -1,6 +1,6 @@
 <div class="flex flex-column">
     <app-course-card
-        *ngFor="let course of courses"
+        *ngFor="let course of courses$ | async"
         [course]="course"
         [editable]="userStore.isAdmin"
         (clickOnDelete)="mockDeleteCourse()"
