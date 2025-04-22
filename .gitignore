@@ -26,3 +26,4 @@ yarn-error.log*
 
 junit.xml
 .angular/
+dist/
