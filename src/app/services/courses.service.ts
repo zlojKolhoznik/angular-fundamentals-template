@@ -42,7 +42,7 @@ export class CoursesService {
     }
 
     filterCourses(value: string) {
-        return this.http.get<HttpResponse<Course[]>>(baseUrl + '/courses/filter', { params: { value } })
+        return this.http.get<HttpResponse<Course[]>>(baseUrl + '/courses/filter?' + value)
             .pipe(map(response => response.result));
     }
 
